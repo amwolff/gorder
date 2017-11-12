@@ -22,6 +22,6 @@ Solution (DFS-based): [1 {3.141592653589793} 3 5 4]
 
 * Sub-package `dagenerator` was developed and used for generating random DAGs for performance tests (`cmd/measurements` should be rewritten as benchmarks).
 
-* Implementation of Kahn's algorithm does pre-computation in the beginning of it's work in order to calculate indegree of every vertex in the graph. This may be split into two separate algorithms/functions in the future:
+* Implementation of Kahn's algorithm does pre-computation in the beginning of its work in order to calculate indegree of every vertex in the graph. This may be split into two separate algorithms/functions in the future:
     - one that doesn't take any additional input but the graph (current implementation)
     - and one that takes additional input of indegrees
