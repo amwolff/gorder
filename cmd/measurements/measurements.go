@@ -10,26 +10,23 @@ import (
 )
 
 func main() {
-	logger := logrus.StandardLogger()
-	logger.SetLevel(logrus.DebugLevel)
-
 	start := time.Now()
 	graph := dagenerator.Generate(10, 50, 30, 50, 30)
-	logger.Infof("DAG generation time: %v", time.Since(start))
+	logrus.Infof("DAG generation time: %v", time.Since(start))
 
 	start = time.Now()
 	s, err := gorder.TopologicalSort(graph, "kahn")
-	logger.Infof("Kahn resolve time: %v", time.Since(start))
+	logrus.Infof("Kahn resolve time: %v", time.Since(start))
 	if err != nil {
-		logger.Fatal(err)
+		logrus.Fatal(err)
 	}
 	spew.Dump(s)
 
 	start = time.Now()
 	s, err = gorder.TopologicalSort(graph, "dfsbased")
-	logger.Infof("DFS-based resolve time: %v", time.Since(start))
+	logrus.Infof("DFS-based resolve time: %v", time.Since(start))
 	if err != nil {
-		logger.Fatal(err)
+		logrus.Fatal(err)
 	}
 	spew.Dump(s)
 }

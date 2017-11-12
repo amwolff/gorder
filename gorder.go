@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-func TopologicalSort(digraph map[int][]int, algorithm string) (solution []int, err error) {
+func TopologicalSort(digraph map[interface{}][]interface{}, algorithm string) (solution []interface{}, err error) {
 	kahnRgxp, err := regexp.Compile(`[Kk]ahn\z`)
 	if err != nil {
 		return nil, err
@@ -29,57 +29,57 @@ func TopologicalSort(digraph map[int][]int, algorithm string) (solution []int, e
 	return solution, nil
 }
 
-func kahn(digraph map[int][]int) ([]int, error) {
-	inDegree := make(map[int]int)
+func kahn(digraph map[interface{}][]interface{}) ([]interface{}, error) {
+	indegrees := make(map[interface{}]int)
 	for u := range digraph {
 		if digraph[u] != nil {
 			for _, v := range digraph[u] {
-				inDegree[v]++
+				indegrees[v]++
 			}
 		}
 	}
 
-	var queue []int
+	var queue []interface{}
 	for u := range digraph {
-		if _, ok := inDegree[u]; !ok {
+		if _, ok := indegrees[u]; !ok {
 			queue = append(queue, u)
 		}
 	}
 
-	var order []int
+	var order []interface{}
 	for len(queue) > 0 {
 		u := queue[len(queue)-1]
 		queue = queue[:(len(queue) - 1)]
 		order = append(order, u)
 		for _, v := range digraph[u] {
-			inDegree[v]--
-			if inDegree[v] == 0 {
+			indegrees[v]--
+			if indegrees[v] == 0 {
 				queue = append(queue, v)
 			}
 		}
 	}
 
-	for _, in := range inDegree {
-		if in > 0 {
-			return order, errors.New("Kahn: not a DAG")
+	for _, indegree := range indegrees {
+		if indegree > 0 {
+			return order, errors.New("not a DAG")
 		}
 	}
 	return order, nil
 }
 
-func dfsBased(digraph map[int][]int) ([]int, error) {
+func dfsBased(digraph map[interface{}][]interface{}) ([]interface{}, error) {
 	var (
 		acyclic       = true
-		order         []int
-		permanentMark = make(map[int]bool)
-		temporaryMark = make(map[int]bool)
-		visit         func(int)
+		order         []interface{}
+		permanentMark = make(map[interface{}]bool)
+		temporaryMark = make(map[interface{}]bool)
+		visit         func(interface{})
 	)
 
-	visit = func(u int) {
+	visit = func(u interface{}) {
 		if temporaryMark[u] {
 			acyclic = false
-		} else if !permanentMark[u] {
+		} else if !(temporaryMark[u] || permanentMark[u]) {
 			temporaryMark[u] = true
 			for _, v := range digraph[u] {
 				visit(v)
@@ -89,7 +89,7 @@ func dfsBased(digraph map[int][]int) ([]int, error) {
 			}
 			delete(temporaryMark, u)
 			permanentMark[u] = true
-			order = append([]int{u}, order...)
+			order = append([]interface{}{u}, order...)
 		}
 	}
 
@@ -97,7 +97,7 @@ func dfsBased(digraph map[int][]int) ([]int, error) {
 		if !permanentMark[u] {
 			visit(u)
 			if !acyclic {
-				return order, errors.New("DFS-based: not a DAG")
+				return order, errors.New("not a DAG")
 			}
 		}
 	}

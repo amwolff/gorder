@@ -3,11 +3,12 @@ package gorder
 import "testing"
 
 func TestTopologicalSort(t *testing.T) {
-	digraph := map[int][]int{
-		1: []int{2, 4},
-		2: []int{3, 5},
-		3: []int{4, 5},
+	digraph := map[interface{}][]interface{}{
+		1: []interface{}{2, 4},
+		2: []interface{}{3, 5},
+		3: []interface{}{4, 5},
 	}
+
 	want := []int{1, 2, 3, 5, 4}
 
 	_, err := TopologicalSort(digraph, "ultrasuperfast")
@@ -35,17 +36,16 @@ func TestTopologicalSort(t *testing.T) {
 		}
 	}
 
-	graphWithCycles := map[int][]int{
-		1: []int{2, 4},
-		2: []int{3, 5},
-		3: []int{4, 5},
-		4: []int{2},
+	graphWithCycles := map[interface{}][]interface{}{
+		1: []interface{}{2, 4},
+		2: []interface{}{3, 5},
+		3: []interface{}{4, 5},
+		4: []interface{}{2},
 	}
 	_, err = TopologicalSort(graphWithCycles, "kahn")
 	if err == nil {
 		t.Fatal("Kahn: should have returned an error")
 	}
-
 	_, err = TopologicalSort(graphWithCycles, "dfsbased")
 	if err == nil {
 		t.Fatal("DFS-based: should have returned an error")

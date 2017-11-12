@@ -7,10 +7,10 @@ import (
 	"time"
 )
 
-func Generate(minPerRank, maxPerRank, minRanks, maxRanks, percent int) (digraph map[int][]int) {
+func Generate(minPerRank, maxPerRank, minRanks, maxRanks, percent int) (digraph map[interface{}][]interface{}) {
 	var j, k, nodes int
 	random := rand.New(rand.NewSource(time.Now().UnixNano()))
-	digraph = make(map[int][]int)
+	digraph = make(map[interface{}][]interface{})
 
 	ranks := minRanks + int(math.Mod(random.Float64(), float64(maxRanks-minRanks+1)))
 	for i := 0; i < ranks; i++ {
