@@ -1,29 +1,24 @@
 package gorder
+import "errors"
 
-import (
-	"errors"
-	"regexp"
+type Algo int
+
+const (
+	DFS Algo = iota
+	Kahn
 )
 
-func TopologicalSort(digraph map[interface{}][]interface{}, algorithm string) (solution []interface{}, err error) {
-	kahnRgxp, err := regexp.Compile(`[Kk]ahn\z`)
-	if err != nil {
-		return nil, err
-	}
-	dfsBasedRgxp, err := regexp.Compile(`[Dd][Ff][Ss]-?[Bb]ased\z`)
-	if err != nil {
-		return nil, err
-	}
-
-	if kahnRgxp.MatchString(algorithm) {
-		if solution, err = kahn(digraph); err != nil {
-			return nil, err
-		}
-	} else if dfsBasedRgxp.MatchString(algorithm) {
+func TopologicalSort(digraph map[interface{}][]interface{}, algorithm Algo) (solution []interface{}, err error) {
+	switch algorithm {
+	case DFS:
 		if solution, err = dfsBased(digraph); err != nil {
 			return nil, err
 		}
-	} else {
+	case Kahn:
+		if solution, err = kahn(digraph); err != nil {
+			return nil, err
+		}
+	default:
 		return nil, errors.New("no such algorithm")
 	}
 	return solution, nil
