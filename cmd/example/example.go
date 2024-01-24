@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math"
 
 	"github.com/amwolff/gorder"
-	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -25,13 +25,13 @@ func main() {
 
 	o, err = gorder.TopologicalSort(digraph, "kahn")
 	if err != nil {
-		logrus.Fatal(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Solution (Kahn): %v\n", o)
 
 	o, err = gorder.TopologicalSort(digraph, "dfsbased")
 	if err != nil {
-		logrus.Fatal(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Solution (DFS-based): %v\n", o)
 }

@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/amwolff/gorder"
-	"github.com/sirupsen/logrus"
 )
 
 func serialize(m map[int][]int) map[interface{}][]interface{} {
@@ -39,13 +39,13 @@ func main() {
 
 	output, err = gorder.TopologicalSort(serialize(digraph), "kahn")
 	if err != nil {
-		logrus.Fatal(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Solution (Kahn): %d\n", deserialize(output))
 
 	output, err = gorder.TopologicalSort(serialize(digraph), "dfsbased")
 	if err != nil {
-		logrus.Fatal(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Solution (DFS-based): %d\n", deserialize(output))
 }
