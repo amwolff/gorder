@@ -56,18 +56,9 @@ func TestTopologicalSort(t *testing.T) {
 	}
 }
 
-func BenchmarkDFSBasedSort(b *testing.B) {
+func BenchmarkTopologicalSort(b *testing.B) {
 	digraph := dagenerator.Generate(10, 50, 30, 50, 30)
-	b.Run("ultrasuperfast", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			_, err := TopologicalSort(digraph, "ultrasuperfast")
-			if err == nil {
-				b.Fatal("TopologicalSort: should have returned an error")
-			}
-		}
-	})
-
-	b.Run("Kahn", func(b *testing.B) {
+	b.Run("kahn", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			_, err := TopologicalSort(digraph, "kahn")
 			if err != nil {
