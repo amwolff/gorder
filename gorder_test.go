@@ -15,12 +15,13 @@ func TestTopologicalSort(t *testing.T) {
 
 	want := []int{1, 2, 3, 5, 4}
 
-	_, err := TopologicalSort(digraph, "ultrasuperfast")
+
+	_, err := TopologicalSort(digraph, 3)
 	if err == nil {
 		t.Fatal("TopologicalSort: should have returned an error")
 	}
 
-	o, err := TopologicalSort(digraph, "kahn")
+	o, err := TopologicalSort(digraph, KAHN)
 	if err != nil {
 		t.Fatalf("Kahn: %v", err)
 	}
@@ -30,7 +31,7 @@ func TestTopologicalSort(t *testing.T) {
 		}
 	}
 
-	o, err = TopologicalSort(digraph, "dfsbased")
+	o, err = TopologicalSort(digraph, DFS)
 	if err != nil {
 		t.Fatalf("DFS-based: %v", err)
 	}
@@ -46,11 +47,11 @@ func TestTopologicalSort(t *testing.T) {
 		3: {4, 5},
 		4: {2},
 	}
-	_, err = TopologicalSort(graphWithCycles, "kahn")
+	_, err = TopologicalSort(graphWithCycles, KAHN)
 	if err == nil {
 		t.Fatal("Kahn: should have returned an error")
 	}
-	_, err = TopologicalSort(graphWithCycles, "dfsbased")
+	_, err = TopologicalSort(graphWithCycles, DFS)
 	if err == nil {
 		t.Fatal("DFS-based: should have returned an error")
 	}
@@ -60,7 +61,7 @@ func BenchmarkTopologicalSort(b *testing.B) {
 	digraph := dagenerator.Generate(10, 50, 30, 50, 30)
 	b.Run("kahn", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			_, err := TopologicalSort(digraph, "kahn")
+			_, err := TopologicalSort(digraph, KAHN)
 			if err != nil {
 				b.Errorf("Kahn: %v", err)
 			}
@@ -68,7 +69,7 @@ func BenchmarkTopologicalSort(b *testing.B) {
 	})
 	b.Run("dfs based", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			_, err := TopologicalSort(digraph, "dfsbased")
+			_, err := TopologicalSort(digraph, DFS)
 			if err != nil {
 				b.Errorf("DFS-based: %v", err)
 			}

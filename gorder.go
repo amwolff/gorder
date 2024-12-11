@@ -2,24 +2,30 @@ package gorder
 
 import (
 	"errors"
-	"regexp"
 )
 
-func TopologicalSort[T comparable, V []T](digraph map[T]V, algorithm string) (solution V, err error) {
-	kahnRgxp, err := regexp.Compile(`[Kk]ahn\z`)
-	if err != nil {
-		return nil, err
-	}
-	dfsBasedRgxp, err := regexp.Compile(`[Dd][Ff][Ss]-?[Bb]ased\z`)
-	if err != nil {
-		return nil, err
-	}
+type algo int
 
-	if kahnRgxp.MatchString(algorithm) {
+const (
+	DFS algo = iota
+	KAHN
+)
+
+func TopologicalSort[T comparable, V []T](digraph map[T]V, algorithm algo) (solution V, err error) {
+	// kahnRgxp, err := regexp.Compile(`[Kk]ahn\z`)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// dfsBasedRgxp, err := regexp.Compile(`[Dd][Ff][Ss]-?[Bb]ased\z`)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	if algorithm == KAHN {
 		if solution, err = kahn(digraph); err != nil {
 			return nil, err
 		}
-	} else if dfsBasedRgxp.MatchString(algorithm) {
+	} else if algorithm == DFS {
 		if solution, err = dfsBased(digraph); err != nil {
 			return nil, err
 		}

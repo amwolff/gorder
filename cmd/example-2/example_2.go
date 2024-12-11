@@ -37,13 +37,13 @@ func main() {
 		3: []int{4, 5},
 	}
 
-	output, err = gorder.TopologicalSort(serialize(digraph), "kahn")
+	output, err = gorder.TopologicalSort(serialize(digraph), gorder.KAHN)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("Solution (Kahn): %d\n", deserialize(output))
 
-	output, err = gorder.TopologicalSort(serialize(digraph), "dfsbased")
+	output, err = gorder.TopologicalSort(serialize(digraph), gorder.DFS)
 	if err != nil {
 		log.Fatal(err)
 	}
