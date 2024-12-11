@@ -7,10 +7,10 @@ import (
 )
 
 func TestTopologicalSort(t *testing.T) {
-	digraph := map[interface{}][]interface{}{
-		1: []interface{}{2, 4},
-		2: []interface{}{3, 5},
-		3: []interface{}{4, 5},
+	digraph := map[int][]int{
+		1: {2, 4},
+		2: {3, 5},
+		3: {4, 5},
 	}
 
 	want := []int{1, 2, 3, 5, 4}
@@ -40,11 +40,11 @@ func TestTopologicalSort(t *testing.T) {
 		}
 	}
 
-	graphWithCycles := map[interface{}][]interface{}{
-		1: []interface{}{2, 4},
-		2: []interface{}{3, 5},
-		3: []interface{}{4, 5},
-		4: []interface{}{2},
+	graphWithCycles := map[int][]int{
+		1: {2, 4},
+		2: {3, 5},
+		3: {4, 5},
+		4: {2},
 	}
 	_, err = TopologicalSort(graphWithCycles, "kahn")
 	if err == nil {

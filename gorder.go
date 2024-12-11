@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-func TopologicalSort(digraph map[interface{}][]interface{}, algorithm string) (solution []interface{}, err error) {
+func TopologicalSort[T comparable, V []T](digraph map[T]V, algorithm string) (solution V, err error) {
 	kahnRgxp, err := regexp.Compile(`[Kk]ahn\z`)
 	if err != nil {
 		return nil, err
@@ -29,24 +29,24 @@ func TopologicalSort(digraph map[interface{}][]interface{}, algorithm string) (s
 	return solution, nil
 }
 
-func kahn(digraph map[interface{}][]interface{}) ([]interface{}, error) {
-	indegrees := make(map[interface{}]int)
-	for u := range digraph {
-		if digraph[u] != nil {
-			for _, v := range digraph[u] {
-				indegrees[v]++
-			}
+func kahn[T comparable, V []T](digraph map[T]V) (V, error) {
+	indegrees := make(map[T]int)
+
+	// loop through all diagraph and add increase indegrees of values
+	for _, iter := range digraph {
+		for _, v := range iter {
+			indegrees[v]++
 		}
 	}
 
-	var queue []interface{}
+	var queue V
 	for u := range digraph {
 		if _, ok := indegrees[u]; !ok {
 			queue = append(queue, u)
 		}
 	}
 
-	var order []interface{}
+	var order V
 	for len(queue) > 0 {
 		u := queue[len(queue)-1]
 		queue = queue[:(len(queue) - 1)]
@@ -67,16 +67,16 @@ func kahn(digraph map[interface{}][]interface{}) ([]interface{}, error) {
 	return order, nil
 }
 
-func dfsBased(digraph map[interface{}][]interface{}) ([]interface{}, error) {
+func dfsBased[T comparable, V []T](digraph map[T]V) (V, error) {
 	var (
 		acyclic       = true
-		order         []interface{}
-		permanentMark = make(map[interface{}]bool)
-		temporaryMark = make(map[interface{}]bool)
-		visit         func(interface{})
+		order         V
+		permanentMark = make(map[T]bool)
+		temporaryMark = make(map[T]bool)
+		visit         func(T)
 	)
 
-	visit = func(u interface{}) {
+	visit = func(u T) {
 		if temporaryMark[u] {
 			acyclic = false
 		} else if !(temporaryMark[u] || permanentMark[u]) {
@@ -89,7 +89,7 @@ func dfsBased(digraph map[interface{}][]interface{}) ([]interface{}, error) {
 			}
 			delete(temporaryMark, u)
 			permanentMark[u] = true
-			order = append([]interface{}{u}, order...)
+			order = append(V{u}, order...)
 		}
 	}
 
