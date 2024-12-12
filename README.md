@@ -30,7 +30,6 @@ You can add the flag `-benchmem` if you want to see the memory allocations:
 go test ./... -bench=. -run=xxx -benchmem
 ```
 
-
 ## Notes:
 
 * Maps are one of the common ways to store graphs in Go. The `TopologicalSort` function input supports `map[interface{}][]interface{}` maps.
