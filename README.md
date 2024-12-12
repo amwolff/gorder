@@ -23,7 +23,9 @@ To benchmark the different algorithms, run the command below:
 ```sh
 go test ./... -bench=. -run=xxx
 ```
-You can add the flag `-benchmem` if you want to see the memory allocations.
+
+You can add the flag `-benchmem` if you want to see the memory allocations:
+
 ```sh
 go test ./... -bench=. -run=xxx -benchmem
 ```
