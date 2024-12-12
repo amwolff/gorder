@@ -17,7 +17,9 @@ Solution (DFS-based): [1 {3.141592653589793} 3 5 4]
 ```
 
 ## Benchmarking
-To benchmark the different algorithms, run the command below.
+
+To benchmark the different algorithms, run the command below:
+
 ```sh
 go test ./... -bench=. -run=xxx
 ```
