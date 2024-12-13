@@ -15,7 +15,7 @@ func main() {
 	log.Printf("DAG generation time: %v", time.Since(start))
 
 	start = time.Now()
-	s, err := gorder.TopologicalSort(graph, "kahn")
+	s, err := gorder.TopologicalSort(graph, gorder.KAHN)
 	log.Printf("Kahn resolve time: %v", time.Since(start))
 	if err != nil {
 		log.Fatal(err)
@@ -23,7 +23,7 @@ func main() {
 	spew.Dump(s)
 
 	start = time.Now()
-	s, err = gorder.TopologicalSort(graph, "dfsbased")
+	s, err = gorder.TopologicalSort(graph, gorder.DFS)
 	log.Printf("DFS-based resolve time: %v", time.Since(start))
 	if err != nil {
 		log.Fatal(err)

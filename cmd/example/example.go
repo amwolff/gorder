@@ -23,13 +23,13 @@ func main() {
 		3: []interface{}{"4", "5"},
 	}
 
-	o, err = gorder.TopologicalSort(digraph, "kahn")
+	o, err = gorder.TopologicalSort(digraph, gorder.KAHN)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("Solution (Kahn): %v\n", o)
 
-	o, err = gorder.TopologicalSort(digraph, "dfsbased")
+	o, err = gorder.TopologicalSort(digraph, gorder.DFS)
 	if err != nil {
 		log.Fatal(err)
 	}
